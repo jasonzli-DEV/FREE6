@@ -2,6 +2,7 @@ import { ActivityType } from 'discord.js';
 import { logger } from '../utils/logger.js';
 import { db } from '../database/db.js';
 import { startSchedulers } from '../plugins/schedulers.js';
+import { syncAllGuildCommands } from '../utils/guildCommands.js';
 
 export const name = 'ready';
 export const once = true;
@@ -9,6 +10,9 @@ export const once = true;
 export async function execute(client) {
   logger.info(`✅ Logged in as ${client.user.tag}`);
   logger.info(`Serving ${client.guilds.cache.size} guilds`);
+
+  // Register guild-scoped commands based on enabled plugins
+  await syncAllGuildCommands(client);
 
   client.user.setPresence({
     activities: [

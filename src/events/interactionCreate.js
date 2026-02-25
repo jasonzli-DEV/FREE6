@@ -4,6 +4,7 @@ import { errorEmbed } from '../utils/embeds.js';
 import { handleCustomCommand } from '../plugins/customCommands/handler.js';
 import { handleReactionRoleButton } from '../plugins/reactionRoles/handler.js';
 import { handleTicketButton } from '../plugins/ticketing/handler.js';
+import { COMMAND_PLUGIN_MAP, getEnabledPlugins } from '../utils/guildCommands.js';
 
 export const name = 'interactionCreate';
 
@@ -17,6 +18,18 @@ export async function execute(interaction) {
     if (!command) {
       // Try custom commands
       return await handleCustomCommand(interaction);
+    }
+
+    // Check if the command's plugin is enabled for this guild
+    const plugin = COMMAND_PLUGIN_MAP[interaction.commandName];
+    if (plugin !== null && plugin !== undefined && interaction.guildId) {
+      const enabled = getEnabledPlugins(interaction.guildId);
+      if (!enabled.has(plugin)) {
+        return interaction.reply({
+          embeds: [errorEmbed('Plugin Disabled', `The **${plugin}** plugin is not enabled on this server. An admin can enable it at the [dashboard](${process.env.DASHBOARD_URL || 'http://localhost:3000'}/dashboard/${interaction.guildId}).`)],
+          ephemeral: true,
+        });
+      }
     }
 
     // Cooldown check

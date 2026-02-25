@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { db } from '../../database/db.js';
 import { bot } from '../../bot.js';
+import { syncGuildCommands } from '../../utils/guildCommands.js';
 
 export const apiRouter = Router();
 
@@ -91,13 +92,21 @@ apiRouter.get('/guild/:guildId/plugins', ensureAuth, ensureGuildAccess, (req, re
   res.json(plugins);
 });
 
-apiRouter.post('/guild/:guildId/plugins/:pluginName/toggle', ensureAuth, ensureGuildAccess, (req, res) => {
+apiRouter.post('/guild/:guildId/plugins/:pluginName/toggle', ensureAuth, ensureGuildAccess, async (req, res) => {
   const { guildId, pluginName } = req.params;
   const { enabled } = req.body;
   db.prepare(`
     INSERT INTO plugin_settings (guild_id, plugin_name, enabled) VALUES (?, ?, ?)
     ON CONFLICT(guild_id, plugin_name) DO UPDATE SET enabled = ?
   `).run(guildId, pluginName, enabled ? 1 : 0, enabled ? 1 : 0);
+
+  // Re-sync slash commands for this guild so they match enabled plugins
+  try {
+    await syncGuildCommands(bot, guildId);
+  } catch (err) {
+    console.error('Failed to sync guild commands after toggle:', err);
+  }
+
   res.json({ success: true, enabled: enabled ? 1 : 0 });
 });
 

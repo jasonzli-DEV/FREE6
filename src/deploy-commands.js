@@ -24,14 +24,21 @@ for (const category of readdirSync(commandsPath)) {
 
 const rest = new REST().setToken(process.env.BOT_TOKEN);
 
-try {
-  console.log(`\nDeploying ${commands.length} slash commands globally...`);
+// Note: The bot now uses guild-scoped commands (registered on startup based on
+// enabled plugins). This script clears global commands and is mainly for reference.
+// Run the bot normally — it will register commands per-guild automatically.
 
+try {
+  // Clear global commands (guild commands are managed at runtime)
+  console.log('\nClearing global commands...');
   await rest.put(
     Routes.applicationCommands(process.env.CLIENT_ID),
-    { body: commands }
+    { body: [] }
   );
-  console.log(`✅ Deployed ${commands.length} commands globally`);
+  console.log('✅ Global commands cleared.');
+  console.log(`\nThe bot has ${commands.length} commands available.`);
+  console.log('Guild-scoped commands are registered automatically on bot startup');
+  console.log('based on each server\'s enabled plugins.');
 } catch (err) {
-  console.error('Failed to deploy commands:', err);
+  console.error('Failed:', err);
 }

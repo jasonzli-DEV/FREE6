@@ -475,3 +475,49 @@ code { background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 
 @media (min-width: 769px) {
   .mobile-topbar { display: none !important; }
 }
+
+/* ── Plugin disabled overlay ─────────────────────────────────────────── */
+.plugin-page-disabled .card,
+.plugin-page-disabled .plugin-form,
+.plugin-page-disabled .btn-primary:not(.enable-plugin-btn) {
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+}
+
+.plugin-disabled-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 5rem;
+  z-index: 10;
+}
+
+.plugin-disabled-content {
+  background: var(--bg-secondary, #1a1a2e);
+  border: 1px solid var(--border, #333);
+  border-radius: 12px;
+  padding: 2rem 3rem;
+  text-align: center;
+  max-width: 400px;
+}
+
+.plugin-disabled-content h2 {
+  margin: 0 0 0.5rem;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.plugin-disabled-content p {
+  color: #aaa;
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.plugin-disabled-content .enable-plugin-btn {
+  opacity: 1;
+  pointer-events: auto;
+}

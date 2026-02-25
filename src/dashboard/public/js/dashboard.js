@@ -192,19 +192,76 @@ async function loadPlugins() {
       });
     });
   }
+
+  // Apply disabled overlays to all plugin config pages
+  applyAllPageOverlays();
 }
 
 async function togglePlugin(name, enabled) {
   try {
-    await api('/plugins/' + name + '/toggle', { method: 'POST', body: { enabled } });
+    const result = await api('/plugins/' + name + '/toggle', { method: 'POST', body: { enabled } });
     // Sync all toggles with this plugin name
     document.querySelectorAll(`.toggle-switch[data-plugin="${name}"] input`).forEach((inp) => {
       inp.checked = enabled;
     });
-    showFlash(enabled ? 'Plugin enabled!' : 'Plugin disabled.');
+    // Update the plugin data cache
+    const plug = pluginsData.find((p) => p.name === name);
+    if (plug) plug.enabled = enabled ? 1 : 0;
+    // Update the current page's disabled overlay if we're on that plugin's page
+    // Use setTimeout(0) to ensure DOM updates complete (overlay button click context)
+    setTimeout(() => updatePageOverlay(name, enabled), 0);
+    showFlash(
+      enabled
+        ? 'Plugin enabled! Slash commands updated for this server.'
+        : 'Plugin disabled. Related slash commands removed from this server.'
+    );
   } catch {
     showFlash('Failed to toggle plugin.', 'error');
   }
+}
+
+/**
+ * Show/hide a "plugin disabled" overlay on plugin config pages.
+ * When a plugin is off, its config page shows an overlay prompting the user to enable it.
+ */
+function updatePageOverlay(pluginName, enabled) {
+  const page = document.getElementById('page-' + pluginName);
+  if (!page) return;
+  let overlay = page.querySelector('.plugin-disabled-overlay');
+  if (enabled) {
+    if (overlay) overlay.remove();
+    page.classList.remove('plugin-page-disabled');
+  } else {
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'plugin-disabled-overlay';
+      overlay.innerHTML = `
+        <div class="plugin-disabled-content">
+          <h2>Plugin Disabled</h2>
+          <p>Enable this plugin from the sidebar toggle to configure it and register its slash commands.</p>
+          <button class="btn btn-primary enable-plugin-btn" data-plugin="${pluginName}">Enable Plugin</button>
+        </div>
+      `;
+      overlay.querySelector('.enable-plugin-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        const toggle = document.querySelector(`.sidebar-item[data-plugin="${pluginName}"] .toggle-switch input`);
+        if (toggle) toggle.checked = true;
+        togglePlugin(pluginName, true);
+      });
+      page.style.position = 'relative';
+      page.appendChild(overlay);
+    }
+    page.classList.add('plugin-page-disabled');
+  }
+}
+
+/**
+ * Apply overlays for all plugin pages on initial load.
+ */
+function applyAllPageOverlays() {
+  pluginsData.forEach((p) => {
+    updatePageOverlay(p.name, !!p.enabled);
+  });
 }
 
 /* ── Stats ────────────────────────────────────────────────────────────── */
