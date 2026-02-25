@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { db } from '../../database/db.js';
+import bot from '../../bot.js';
 
 export const apiRouter = Router();
 
@@ -10,10 +11,10 @@ function ensureAuth(req, res, next) {
 
 // ── Guild Info ─────────────────────────────────────────────────────────────
 apiRouter.get('/guilds', ensureAuth, (req, res) => {
-  const guilds = req.user.guilds || [];
-  // Only return guilds where user can manage server
-  const managed = guilds.filter((g) => (BigInt(g.permissions) & BigInt(0x20)) === BigInt(0x20));
-  res.json(managed);
+  const guilds = (req.user.guilds || [])
+    .filter((g) => (BigInt(g.permissions || 0) & BigInt(0x20)) === BigInt(0x20))
+    .map((g) => ({ ...g, botPresent: bot.guilds.cache.has(g.id) }));
+  res.json(guilds);
 });
 
 // ── Leveling Settings ──────────────────────────────────────────────────────
