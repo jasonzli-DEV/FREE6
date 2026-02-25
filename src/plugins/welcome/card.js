@@ -1,10 +1,31 @@
-import { createCanvas, loadImage, registerFont } from 'canvas';
 import axios from 'axios';
 
 /**
+ * Lazy-load canvas so the bot still starts even if the `canvas`
+ * native addon is not available (e.g. Pterodactyl without libcairo).
+ * Returns null when canvas is unavailable — callers must handle that.
+ */
+let _canvasMod = undefined; // undefined = not yet tried; null = unavailable
+async function getCanvasMod() {
+  if (_canvasMod !== undefined) return _canvasMod;
+  try {
+    _canvasMod = await import('canvas');
+  } catch {
+    _canvasMod = null;
+  }
+  return _canvasMod;
+}
+
+/**
  * Generate a welcome card image for a new member.
+ * Returns a Buffer (PNG) or null if canvas is not available.
  */
 export async function createWelcomeCard(member, settings) {
+  const cv = await getCanvasMod();
+  if (!cv) return null; // canvas not installed — skip image
+
+  const { createCanvas, loadImage } = cv;
+
   const width = 800;
   const height = 250;
   const canvas = createCanvas(width, height);

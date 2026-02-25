@@ -12,7 +12,8 @@ import { authRouter } from './routes/auth.js';
 import { apiRouter } from './routes/api.js';
 import bot from '../bot.js';
 
-const SESSION_SECRET = crypto.randomBytes(32).toString('hex');
+const SESSION_SECRET =
+  process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

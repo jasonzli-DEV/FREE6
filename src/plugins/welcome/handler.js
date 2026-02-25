@@ -30,11 +30,9 @@ export async function handleWelcome(member) {
     if (settings.card_enabled) {
       try {
         const cardBuffer = await createWelcomeCard(member, settings);
-        payload.files = [new AttachmentBuilder(cardBuffer, { name: 'welcome.png' })];
-      } catch (err) {
-        logger.warn('Welcome card generation failed:', err.message);
-      }
-    }
+          if (cardBuffer) {
+            payload.files = [new AttachmentBuilder(cardBuffer, { name: 'welcome.png' })];
+          }
 
     await channel.send(payload);
   } catch (err) {

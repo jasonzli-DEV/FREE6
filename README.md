@@ -66,9 +66,9 @@
 - Auto-birthday messages and optional birthday role
 
 ### 🔔 Social Alerts
-- **Twitch** — Live stream notifications
-- **YouTube** — New video upload alerts
-- **RSS Feeds** — Generic feed support for any platform
+- **YouTube** — New video upload alerts (requires `YOUTUBE_API_KEY`)
+- **RSS Feeds** — Generic feed support for any public RSS/Atom feed (no key required)
+- **Reddit** — New post notifications for any subreddit (no key required)
 
 ### 🎫 Ticketing
 - `/ticket` command to open support tickets
@@ -110,6 +110,11 @@
 - npm or yarn
 - A Discord Bot Token ([guide](https://discord.com/developers/applications))
 
+> ⚠️ **Privileged Intents required** — In the [Discord Developer Portal](https://discord.com/developers/applications), open your app → **Bot** → enable all three Privileged Gateway Intents:
+> - Server Members Intent
+> - Message Content Intent
+> - (Presence Intent is NOT needed)
+
 ### Installation
 
 ```bash
@@ -124,8 +129,8 @@ npm install
 cp .env.example .env
 # Edit .env with your credentials
 
-# Deploy slash commands (first time setup)
-npm run deploy
+# Deploy slash commands (required once — registers /commands with Discord)
+npm run build
 
 # Start the bot
 npm start
@@ -186,13 +191,12 @@ FREE6/
 │   │   ├── inviteTracker/
 │   │   ├── starboard/
 │   │   ├── antiRaid/
-│   │   └── automation/
+│   │   ├── socialAlerts/     # YouTube / RSS / Reddit pollers
+│   │   └── schedulers.js
 │   └── dashboard/            # Web dashboard (Express)
 │       ├── server.js
 │       ├── routes/
 │       └── public/
-├── config/
-│   └── default.js
 ├── .env.example
 └── package.json
 ```
