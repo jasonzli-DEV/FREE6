@@ -10,7 +10,7 @@ import { logger } from '../utils/logger.js';
 import { db } from '../database/db.js';
 import { authRouter } from './routes/auth.js';
 import { apiRouter } from './routes/api.js';
-import bot from '../bot.js';
+import { bot } from '../bot.js';
 
 const SESSION_SECRET =
   process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');

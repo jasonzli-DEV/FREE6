@@ -13,6 +13,7 @@ yarn-error.log*
 *.sqlite
 *.sqlite3
 *.db
+data/
 
 # Logs
 logs/
@@ -38,3 +39,5 @@ Thumbs.db
 # Uploads
 uploads/
 public/uploads/
+.playwright-mcp/
+*.png

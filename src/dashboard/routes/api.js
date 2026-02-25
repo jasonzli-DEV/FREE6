@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { db } from '../../database/db.js';
-import bot from '../../bot.js';
+import { bot } from '../../bot.js';
 
 export const apiRouter = Router();
 
@@ -57,7 +57,7 @@ const ALL_PLUGINS = [
   { name: 'reaction-roles', label: 'Reaction Roles', category: 'essentials', icon: '🎭', description: 'Let members self-assign roles by reacting to messages.' },
   { name: 'moderator', label: 'Moderator', category: 'essentials', icon: '🛡️', description: 'Auto-moderation filters for spam, links, caps, and bad words.' },
   { name: 'levels', label: 'Levels', category: 'essentials', icon: '⭐', description: 'XP-based leveling with rank cards, role rewards, and leaderboards.' },
-  { name: 'starboard', label: 'Starboard', category: 'essentials', icon: '🌟', description: 'Pin the best messages to a starboard channel.' },
+  { name: 'starboard', label: 'Starboards', category: 'essentials', icon: '🌟', description: 'Pin the best messages to a starboard channel.' },
   // Server Management
   { name: 'automations', label: 'Automations', category: 'server-management', icon: '⚡', description: 'Set up automated actions triggered by events.' },
   { name: 'custom-commands', label: 'Custom Commands', category: 'server-management', icon: '🔧', description: 'Create custom slash commands with text or embed responses.' },

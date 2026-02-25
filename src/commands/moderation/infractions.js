@@ -5,13 +5,20 @@ import { errorEmbed } from '../../utils/embeds.js';
 export const data = new SlashCommandBuilder()
   .setName('infractions')
   .setDescription('View infractions for a user')
-  .addUserOption((o) => o.setName('user').setDescription('User to check').setRequired(true))
-  .addSubcommand((s) => s.setName('list').setDescription('List all infractions'))
-  .addSubcommand((s) => s.setName('clear').setDescription('Clear all infractions').addUserOption((o) => o.setName('user').setDescription('User').setRequired(true)))
+  .addSubcommand((s) =>
+    s.setName('list')
+      .setDescription('List all infractions for a user')
+      .addUserOption((o) => o.setName('user').setDescription('User to check').setRequired(true))
+  )
+  .addSubcommand((s) =>
+    s.setName('clear')
+      .setDescription('Clear all infractions for a user')
+      .addUserOption((o) => o.setName('user').setDescription('User to clear').setRequired(true))
+  )
   .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers);
 
 export async function execute(interaction) {
-  const sub = interaction.options.getSubcommand(false) || 'list';
+  const sub = interaction.options.getSubcommand();
   const target = interaction.options.getUser('user');
   const { guild } = interaction;
 

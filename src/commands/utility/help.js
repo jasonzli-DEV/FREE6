@@ -1,11 +1,11 @@
 import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } from 'discord.js';
 
 const CATEGORIES = {
-  moderation: { emoji: '🛡️', description: 'Server moderation tools', commands: ['ban', 'kick', 'mute', 'unmute', 'warn', 'infractions', 'clear', 'slowmode', 'lock', 'unlock', 'unban', 'automod', 'setup'] },
-  leveling: { emoji: '📈', description: 'XP and leveling system', commands: ['rank', 'leaderboard', 'xp'] },
+  moderation: { emoji: '🛡️', description: 'Server moderation tools', commands: ['ban', 'kick', 'mute', 'unmute', 'warn', 'infractions', 'clear', 'slowmode', 'unban'] },
+  leveling: { emoji: '📈', description: 'XP and leveling system', commands: ['rank', 'leaderboard'] },
   economy: { emoji: '💰', description: 'Economy and games', commands: ['daily', 'balance', 'gamble'] },
   fun: { emoji: '🎉', description: 'Fun and engagement', commands: ['poll', 'giveaway', 'birthday'] },
-  utility: { emoji: '🔧', description: 'Useful tools', commands: ['serverinfo', 'userinfo', 'avatar', 'remind', 'ticket', 'reactionrole', 'suggest', 'invites', 'starboard'] },
+  utility: { emoji: '🔧', description: 'Useful tools', commands: ['help', 'dashboard'] },
 };
 
 export const data = new SlashCommandBuilder()
@@ -40,7 +40,7 @@ export async function execute(interaction) {
   const embed = new EmbedBuilder()
     .setColor(0x5865f2)
     .setTitle('📖 FREE6 Help')
-    .setDescription('FREE6 is a 110% free replica of MEE6 with extra features!\n\nSelect a category below or use `/help [category]`.')
+    .setDescription('FREE6 is the 100% free MEE6 alternative!\n\nSelect a category below or use `/help [category]`.')
     .addFields(
       Object.entries(CATEGORIES).map(([key, cat]) => ({
         name: `${cat.emoji} ${key.charAt(0).toUpperCase() + key.slice(1)}`,
