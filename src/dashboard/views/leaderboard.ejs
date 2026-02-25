@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard — FREE6</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="brand" href="/">FREE6</a>
+      <div class="nav-links">
+        <% if (typeof user !== 'undefined' && user) { %>
+          <a href="/dashboard">Dashboard</a>
+        <% } else { %>
+          <a href="/auth/login" class="btn btn-primary">Login</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>
+        <% if (guild && guild.icon) { %>
+          <img class="guild-icon" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=48" alt="<%= guild.name %>"/>
+        <% } %>
+        <%= guild ? guild.name + ' Leaderboard' : 'Leaderboard' %>
+      </h1>
+    </div>
+
+    <div class="leaderboard-table">
+      <% if (rows && rows.length > 0) { %>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User</th>
+              <th>Level</th>
+              <th>Total XP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% rows.forEach(function(row, i) { %>
+              <tr class="<%= i === 0 ? 'rank-gold' : i === 1 ? 'rank-silver' : i === 2 ? 'rank-bronze' : '' %>">
+                <td class="rank-num">
+                  <% if (i === 0) { %> 🥇
+                  <% } else if (i === 1) { %> 🥈
+                  <% } else if (i === 2) { %> 🥉
+                  <% } else { %> <%= i + 1 %>
+                  <% } %>
+                </td>
+                <td class="user-cell">
+                  <span class="user-id"><%= row.user_id %></span>
+                </td>
+                <td><strong><%= row.level %></strong></td>
+                <td><%= row.total_xp.toLocaleString() %> XP</td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <div class="empty-state">
+          <p>No members have earned XP yet on this server.</p>
+        </div>
+      <% } %>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 jasonzli-DEV · <a href="https://github.com/jasonzli-DEV/FREE6">GitHub</a></p>
+  </footer>
+</body>
+</html>

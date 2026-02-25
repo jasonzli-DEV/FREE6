@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= guild.name %> — FREE6 Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="brand" href="/">FREE6</a>
+      <div class="nav-links">
+        <a href="/dashboard">← Back</a>
+        <a href="/auth/logout" class="btn btn-outline">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <% if (guild.icon) { %>
+        <img class="guild-icon" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=64" alt="<%= guild.name %>"/>
+      <% } else { %>
+        <div class="guild-icon-placeholder"><%= guild.name.charAt(0) %></div>
+      <% } %>
+      <h1><%= guild.name %></h1>
+    </div>
+
+    <div id="flash-message" class="flash" style="display:none"></div>
+
+    <!-- Stats -->
+    <div class="stats-grid" data-guild="<%= guild.id %>">
+      <div class="stat-card"><div class="stat-value" id="stat-xp">—</div><div class="stat-label">Members with XP</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-infractions">—</div><div class="stat-label">Total Infractions</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-tickets">—</div><div class="stat-label">Total Tickets</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-open-tickets">—</div><div class="stat-label">Open Tickets</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="leveling">Leveling</button>
+      <button class="tab-btn" data-tab="welcome">Welcome</button>
+      <button class="tab-btn" data-tab="automod">AutoMod</button>
+      <button class="tab-btn" data-tab="commands">Custom Commands</button>
+    </div>
+
+    <!-- Leveling -->
+    <div class="tab-panel active" id="tab-leveling">
+      <form id="form-leveling" data-guild="<%= guild.id %>">
+        <div class="form-group">
+          <label><input type="checkbox" id="levels-enabled" name="enabled"/> Enable Leveling</label>
+        </div>
+        <div class="form-group">
+          <label for="announce-channel">Announce Channel ID</label>
+          <input type="text" id="announce-channel" name="announce_channel" placeholder="Leave blank for same channel"/>
+        </div>
+        <div class="form-group">
+          <label for="announce-message">Level Up Message</label>
+          <input type="text" id="announce-message" name="announce_message" placeholder="{user} just reached level {level}!"/>
+          <small class="muted">Variables: {user} {level} {xp}</small>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="xp-min">Min XP / message</label>
+            <input type="number" id="xp-min" name="xp_min" min="1" max="100" value="15"/>
+          </div>
+          <div class="form-group">
+            <label for="xp-max">Max XP / message</label>
+            <input type="number" id="xp-max" name="xp_max" min="1" max="100" value="25"/>
+          </div>
+          <div class="form-group">
+            <label for="xp-cooldown">Cooldown (seconds)</label>
+            <input type="number" id="xp-cooldown" name="xp_cooldown" min="1" max="600" value="60"/>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Leveling</button>
+      </form>
+    </div>
+
+    <!-- Welcome -->
+    <div class="tab-panel" id="tab-welcome">
+      <form id="form-welcome" data-guild="<%= guild.id %>">
+        <div class="form-group">
+          <label><input type="checkbox" id="welcome-enabled" name="enabled"/> Enable Welcome Messages</label>
+        </div>
+        <div class="form-group">
+          <label for="welcome-channel">Welcome Channel ID</label>
+          <input type="text" id="welcome-channel" name="channel_id" placeholder="Channel ID"/>
+        </div>
+        <div class="form-group">
+          <label for="welcome-message">Welcome Message</label>
+          <textarea id="welcome-message" name="message" rows="3" placeholder="Welcome {user} to {server}!"></textarea>
+          <small class="muted">Variables: {user} {username} {server} {memberCount}</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Welcome</button>
+      </form>
+    </div>
+
+    <!-- AutoMod -->
+    <div class="tab-panel" id="tab-automod">
+      <div id="automod-display">
+        <p class="muted">Loading automod settings…</p>
+      </div>
+      <p>Use the <code>/automod</code> slash command in your server to configure filters and actions.</p>
+    </div>
+
+    <!-- Custom Commands -->
+    <div class="tab-panel" id="tab-commands">
+      <form id="form-command" data-guild="<%= guild.id %>">
+        <h3>Add Custom Command</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Command Name</label>
+            <input type="text" name="name" placeholder="e.g. rules" required/>
+          </div>
+          <div class="form-group">
+            <label>Response</label>
+            <input type="text" name="response" placeholder="Response text" required/>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Command</button>
+      </form>
+
+      <div id="commands-list" data-guild="<%= guild.id %>">
+        <p class="muted">Loading…</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 jasonzli-DEV · <a href="https://github.com/jasonzli-DEV/FREE6">GitHub</a></p>
+  </footer>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

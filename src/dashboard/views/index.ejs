@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FREE6 — The Free MEE6 Alternative</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="icon" href="/img/logo.png" onerror="this.remove()"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="brand" href="/">FREE6</a>
+      <div class="nav-links">
+        <a href="/leaderboard">Leaderboard</a>
+        <% if (user) { %>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/auth/logout" class="btn btn-outline">Logout</a>
+        <% } else { %>
+          <a href="/auth/login" class="btn btn-primary">Login with Discord</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1>FREE6</h1>
+    <p class="hero-sub">The 110% free MEE6 alternative — all the features, none of the paywalls.</p>
+    <div class="hero-actions">
+      <a href="https://discord.com/api/oauth2/authorize?client_id=<%= process.env.CLIENT_ID %>&permissions=8&scope=bot+applications.commands" target="_blank" class="btn btn-primary btn-lg">Add to Discord</a>
+      <a href="https://github.com/jasonzli-DEV/FREE6" target="_blank" class="btn btn-outline btn-lg">GitHub</a>
+    </div>
+  </header>
+
+  <section class="features">
+    <h2>Everything MEE6 Offers — and More</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Moderation</h3>
+        <p>Ban, kick, mute, warn, infractions, bulk delete, slowmode, auto-moderation with filters.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <h3>Leveling</h3>
+        <p>XP system with rank cards, leaderboards, role rewards, and fully customisable announcements.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Economy</h3>
+        <p>Daily coins, balance, gambling mini-games (coinflip, roulette, slots, RPS), and a shop.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎉</div>
+        <h3>Giveaways &amp; Polls</h3>
+        <p>Timed giveaways, re-rolls, multi-option polls with automatic reaction tracking.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👋</div>
+        <h3>Welcome Messages</h3>
+        <p>Custom welcome and goodbye messages with beautiful image cards and template variables.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎭</div>
+        <h3>Reaction Roles</h3>
+        <p>Normal, unique, verified, and reversed reaction role modes — all configurable via dashboard.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎫</div>
+        <h3>Tickets</h3>
+        <p>Per-category ticket panels with staff-only access, logs, and transcript on close.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <h3>Custom Commands</h3>
+        <p>Create your own slash commands with text responses or complex action chains.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>FREE6 is open source under the <a href="https://github.com/jasonzli-DEV/FREE6/blob/main/LICENSE">MIT License</a>.</p>
+    <p>© 2026 jasonzli-DEV · <a href="https://github.com/jasonzli-DEV/FREE6">GitHub</a></p>
+  </footer>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

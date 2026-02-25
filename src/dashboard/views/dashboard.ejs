@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — FREE6</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a class="brand" href="/">FREE6</a>
+      <div class="nav-links">
+        <a href="/dashboard" class="active">Dashboard</a>
+        <a href="/auth/logout" class="btn btn-outline">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <img class="user-avatar" src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=64" alt="<%= user.username %>" onerror="this.src='/img/default-avatar.png'"/>
+      <div>
+        <h1>Welcome, <%= user.username %>!</h1>
+        <p class="muted">Select a server to manage.</p>
+      </div>
+    </div>
+
+    <h2>Your Servers</h2>
+    <div class="guild-grid">
+      <% guilds.forEach(function(guild) { %>
+        <% if (guild.botPresent) { %>
+          <a class="guild-card" href="/dashboard/<%= guild.id %>">
+            <% if (guild.icon) { %>
+              <img class="guild-icon" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=64" alt="<%= guild.name %>"/>
+            <% } else { %>
+              <div class="guild-icon-placeholder"><%= guild.name.charAt(0) %></div>
+            <% } %>
+            <div class="guild-info">
+              <span class="guild-name"><%= guild.name %></span>
+              <span class="guild-badge guild-badge--active">Configure</span>
+            </div>
+          </a>
+        <% } else { %>
+          <a class="guild-card guild-card--inactive" href="https://discord.com/api/oauth2/authorize?client_id=<%= process.env.CLIENT_ID %>&guild_id=<%= guild.id %>&permissions=8&scope=bot+applications.commands" target="_blank">
+            <% if (guild.icon) { %>
+              <img class="guild-icon guild-icon--dim" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=64" alt="<%= guild.name %>"/>
+            <% } else { %>
+              <div class="guild-icon-placeholder guild-icon-placeholder--dim"><%= guild.name.charAt(0) %></div>
+            <% } %>
+            <div class="guild-info">
+              <span class="guild-name"><%= guild.name %></span>
+              <span class="guild-badge guild-badge--invite">Invite Bot</span>
+            </div>
+          </a>
+        <% } %>
+      <% }); %>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 jasonzli-DEV · <a href="https://github.com/jasonzli-DEV/FREE6">GitHub</a></p>
+  </footer>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
