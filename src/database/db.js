@@ -3,7 +3,7 @@ import { mkdirSync } from 'fs';
 import { dirname } from 'path';
 import { logger } from '../utils/logger.js';
 
-const dbPath = process.env.DB_PATH || './data/free6.sqlite';
+const dbPath = './data/free6.sqlite';
 mkdirSync(dirname(dbPath), { recursive: true });
 
 export const db = new Database(dbPath);

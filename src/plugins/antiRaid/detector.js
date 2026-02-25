@@ -32,10 +32,11 @@ export async function checkAntiRaid(member) {
     // Activate lockdown
     db.prepare('UPDATE anti_raid_settings SET lockdown_active = 1 WHERE guild_id = ?').run(guild.id);
 
-    // Notify if configured
-    if (process.env.ANTI_RAID_ALERT_CHANNEL) {
+    // Notify the configured alert channel from guild settings
+    const settings2 = db.prepare('SELECT alert_channel FROM anti_raid_settings WHERE guild_id = ?').get(guild.id);
+    if (settings2?.alert_channel) {
       try {
-        const ch = guild.channels.cache.get(process.env.ANTI_RAID_ALERT_CHANNEL);
+        const ch = guild.channels.cache.get(settings2.alert_channel);
         if (ch) await ch.send(`🚨 **Anti-Raid activated!** ${recent.length} members joined in ${settings.join_interval}s. Server is in lockdown. Use \`/antiraid unlock\` to disable.`);
       } catch {}
     }

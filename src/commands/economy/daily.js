@@ -7,7 +7,7 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction) {
   const { guild, user } = interaction;
-  const dailyAmount = parseInt(process.env.DEFAULT_DAILY_COINS || '100');
+  const dailyAmount = 100;
 
   db.prepare('INSERT OR IGNORE INTO economy (guild_id, user_id) VALUES (?, ?)').run(guild.id, user.id);
   const row = db.prepare('SELECT * FROM economy WHERE guild_id = ? AND user_id = ?').get(guild.id, user.id);

@@ -30,7 +30,7 @@ app.set('views', join(__dirname, 'views'));
 
 // ── Session ────────────────────────────────────────────────────────────────
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'free6-default-secret',
+  secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 },
@@ -38,9 +38,9 @@ app.use(session({
 
 // ── Passport / Discord OAuth2 ──────────────────────────────────────────────
 passport.use(new DiscordStrategy({
-  clientID: process.env.OAUTH_CLIENT_ID,
-  clientSecret: process.env.OAUTH_CLIENT_SECRET,
-  callbackURL: process.env.OAUTH_REDIRECT_URI,
+  clientID: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  callbackURL: process.env.REDIRECT_URI,
   scope: ['identify', 'guilds'],
 }, (accessToken, refreshToken, profile, done) => {
   return done(null, { ...profile, accessToken });
