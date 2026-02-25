@@ -389,4 +389,77 @@ db.exec(`
   );
 `);
 
+// ── Plugin Settings (enable/disable per guild) ────────────────────────────
+db.exec(`
+  CREATE TABLE IF NOT EXISTS plugin_settings (
+    guild_id TEXT NOT NULL,
+    plugin_name TEXT NOT NULL,
+    enabled INTEGER DEFAULT 0,
+    PRIMARY KEY (guild_id, plugin_name)
+  );
+`);
+
+// ── YouTube Alerts ────────────────────────────────────────────────────────
+db.exec(`
+  CREATE TABLE IF NOT EXISTS youtube_alerts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id TEXT NOT NULL,
+    channel_id TEXT NOT NULL,
+    youtube_channel_id TEXT NOT NULL,
+    youtube_channel_name TEXT,
+    message TEXT DEFAULT '{channel} uploaded a new video!\n{url}',
+    last_video_id TEXT,
+    last_checked INTEGER DEFAULT 0
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_youtube_guild
+    ON youtube_alerts(guild_id);
+`);
+
+// ── RSS Feeds ─────────────────────────────────────────────────────────────
+db.exec(`
+  CREATE TABLE IF NOT EXISTS rss_feeds (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id TEXT NOT NULL,
+    channel_id TEXT NOT NULL,
+    feed_url TEXT NOT NULL,
+    feed_name TEXT,
+    message TEXT DEFAULT 'New post from {feed}: **{title}**\n{url}',
+    last_item_id TEXT,
+    last_checked INTEGER DEFAULT 0
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_rss_guild
+    ON rss_feeds(guild_id);
+`);
+
+// ── Reddit Alerts ─────────────────────────────────────────────────────────
+db.exec(`
+  CREATE TABLE IF NOT EXISTS reddit_alerts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id TEXT NOT NULL,
+    channel_id TEXT NOT NULL,
+    subreddit TEXT NOT NULL,
+    message TEXT DEFAULT 'New post in r/{subreddit}: **{title}**\n{url}',
+    last_post_id TEXT,
+    last_checked INTEGER DEFAULT 0
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_reddit_guild
+    ON reddit_alerts(guild_id);
+`);
+
+// ── Embed Messages ────────────────────────────────────────────────────────
+db.exec(`
+  CREATE TABLE IF NOT EXISTS embed_messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    channel_id TEXT,
+    message_id TEXT,
+    embed_data JSON NOT NULL,
+    created_at INTEGER DEFAULT (unixepoch())
+  );
+`);
+
 logger.info('Database initialized successfully');

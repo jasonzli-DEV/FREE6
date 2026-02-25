@@ -2,6 +2,9 @@ import cron from 'node-cron';
 import { db } from '../database/db.js';
 import { logger } from '../utils/logger.js';
 import { endGiveaway } from './giveaways/handler.js';
+import { checkYouTubeAlerts } from './socialAlerts/youtube.js';
+import { checkRSSFeeds } from './socialAlerts/rss.js';
+import { checkRedditAlerts } from './socialAlerts/reddit.js';
 
 export function startSchedulers(client) {
   // ── Giveaways (every minute) ──────────────────────────────────────────
@@ -128,6 +131,33 @@ export function startSchedulers(client) {
       logger.warn(`Invalid cron for timed message ${tm.id}: ${err.message}`);
     }
   }
+
+  // ── YouTube alerts (every 5 minutes) ───────────────────────────────────
+  cron.schedule('*/5 * * * *', async () => {
+    try {
+      await checkYouTubeAlerts(client);
+    } catch (err) {
+      logger.warn(`YouTube alert scheduler error: ${err.message}`);
+    }
+  });
+
+  // ── RSS feed alerts (every 5 minutes) ──────────────────────────────────
+  cron.schedule('*/5 * * * *', async () => {
+    try {
+      await checkRSSFeeds(client);
+    } catch (err) {
+      logger.warn(`RSS feed scheduler error: ${err.message}`);
+    }
+  });
+
+  // ── Reddit alerts (every 5 minutes) ───────────────────────────────────
+  cron.schedule('*/5 * * * *', async () => {
+    try {
+      await checkRedditAlerts(client);
+    } catch (err) {
+      logger.warn(`Reddit alert scheduler error: ${err.message}`);
+    }
+  });
 
   logger.info('Schedulers started');
 }

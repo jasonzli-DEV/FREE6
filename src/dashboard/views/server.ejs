@@ -6,131 +6,812 @@
   <title><%= guild.name %> — FREE6 Dashboard</title>
   <link rel="stylesheet" href="/css/style.css"/>
 </head>
-<body>
-  <nav class="navbar">
-    <div class="nav-inner">
-      <a class="brand" href="/">FREE6</a>
-      <div class="nav-links">
-        <a href="/dashboard">← Back</a>
-        <a href="/auth/logout" class="btn btn-outline">Logout</a>
-      </div>
-    </div>
-  </nav>
+<body class="dashboard-body">
 
-  <main class="container">
-    <div class="page-header">
+  <!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="/dashboard" class="sidebar-back" title="Back to servers">&#8592;</a>
       <% if (guild.icon) { %>
-        <img class="guild-icon" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=64" alt="<%= guild.name %>"/>
+        <img class="sidebar-guild-icon" src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=64" alt="<%= guild.name %>"/>
       <% } else { %>
-        <div class="guild-icon-placeholder"><%= guild.name.charAt(0) %></div>
+        <div class="sidebar-guild-placeholder"><%= guild.name.charAt(0) %></div>
       <% } %>
-      <h1><%= guild.name %></h1>
+      <span class="sidebar-guild-name"><%= guild.name %></span>
     </div>
 
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <!-- Dashboard Home -->
+      <a class="sidebar-item active" data-page="dashboard" href="#">
+        <span class="sidebar-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a class="sidebar-item" data-page="leaderboard" href="/leaderboard/<%= guild.id %>" target="_blank">
+        <span class="sidebar-icon">🏆</span>
+        <span>Leaderboard</span>
+      </a>
+      <a class="sidebar-item" data-page="settings" href="#">
+        <span class="sidebar-icon">⚙️</span>
+        <span>Settings</span>
+      </a>
+
+      <!-- ESSENTIALS -->
+      <div class="sidebar-category">Essentials</div>
+      <a class="sidebar-item" data-page="welcome" data-plugin="welcome" href="#">
+        <span class="sidebar-icon">👋</span>
+        <span>Welcome & Goodbye</span>
+        <label class="toggle-switch" data-plugin="welcome"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="reaction-roles" data-plugin="reaction-roles" href="#">
+        <span class="sidebar-icon">🎭</span>
+        <span>Reaction Roles</span>
+        <label class="toggle-switch" data-plugin="reaction-roles"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="moderator" data-plugin="moderator" href="#">
+        <span class="sidebar-icon">🛡️</span>
+        <span>Moderator</span>
+        <label class="toggle-switch" data-plugin="moderator"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="levels" data-plugin="levels" href="#">
+        <span class="sidebar-icon">⭐</span>
+        <span>Levels</span>
+        <label class="toggle-switch" data-plugin="levels"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="starboard" data-plugin="starboard" href="#">
+        <span class="sidebar-icon">🌟</span>
+        <span>Starboard</span>
+        <label class="toggle-switch" data-plugin="starboard"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+
+      <!-- SERVER MANAGEMENT -->
+      <div class="sidebar-category">Server Management</div>
+      <a class="sidebar-item" data-page="automations" data-plugin="automations" href="#">
+        <span class="sidebar-icon">⚡</span>
+        <span>Automations</span>
+        <label class="toggle-switch" data-plugin="automations"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="custom-commands" data-plugin="custom-commands" href="#">
+        <span class="sidebar-icon">🔧</span>
+        <span>Custom Commands</span>
+        <label class="toggle-switch" data-plugin="custom-commands"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="invite-tracker" data-plugin="invite-tracker" href="#">
+        <span class="sidebar-icon">📨</span>
+        <span>Invite Tracker</span>
+        <label class="toggle-switch" data-plugin="invite-tracker"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="ticketing" data-plugin="ticketing" href="#">
+        <span class="sidebar-icon">🎫</span>
+        <span>Ticketing</span>
+        <label class="toggle-switch" data-plugin="ticketing"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+
+      <!-- UTILITIES -->
+      <div class="sidebar-category">Utilities</div>
+      <a class="sidebar-item" data-page="polls" data-plugin="polls" href="#">
+        <span class="sidebar-icon">📊</span>
+        <span>Polls</span>
+        <label class="toggle-switch" data-plugin="polls"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="embed-messages" data-plugin="embed-messages" href="#">
+        <span class="sidebar-icon">📝</span>
+        <span>Embed Messages</span>
+        <label class="toggle-switch" data-plugin="embed-messages"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="reminders" data-plugin="reminders" href="#">
+        <span class="sidebar-icon">⏰</span>
+        <span>Reminders</span>
+        <label class="toggle-switch" data-plugin="reminders"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="temp-channels" data-plugin="temp-channels" href="#">
+        <span class="sidebar-icon">🔊</span>
+        <span>Temporary Channels</span>
+        <label class="toggle-switch" data-plugin="temp-channels"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+
+      <!-- SOCIAL ALERTS -->
+      <div class="sidebar-category">Social Alerts</div>
+      <a class="sidebar-item" data-page="youtube" data-plugin="youtube" href="#">
+        <span class="sidebar-icon">📺</span>
+        <span>YouTube</span>
+        <label class="toggle-switch" data-plugin="youtube"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="rss-feeds" data-plugin="rss-feeds" href="#">
+        <span class="sidebar-icon">📡</span>
+        <span>RSS Feeds</span>
+        <label class="toggle-switch" data-plugin="rss-feeds"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="reddit" data-plugin="reddit" href="#">
+        <span class="sidebar-icon">🔗</span>
+        <span>Reddit</span>
+        <label class="toggle-switch" data-plugin="reddit"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+
+      <!-- GAMES & FUN -->
+      <div class="sidebar-category">Games & Fun</div>
+      <a class="sidebar-item" data-page="giveaways" data-plugin="giveaways" href="#">
+        <span class="sidebar-icon">🎉</span>
+        <span>Giveaways</span>
+        <label class="toggle-switch" data-plugin="giveaways"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="birthdays" data-plugin="birthdays" href="#">
+        <span class="sidebar-icon">🎂</span>
+        <span>Birthdays</span>
+        <label class="toggle-switch" data-plugin="birthdays"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+      <a class="sidebar-item" data-page="economy" data-plugin="economy" href="#">
+        <span class="sidebar-icon">💰</span>
+        <span>Economy</span>
+        <label class="toggle-switch" data-plugin="economy"><input type="checkbox"/><span class="toggle-slider"></span></label>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="/auth/logout" class="btn btn-outline btn-sm">Logout</a>
+    </div>
+  </aside>
+
+  <!-- ── Mobile top bar ───────────────────────────────────────────────────── -->
+  <div class="mobile-topbar">
+    <button class="hamburger" id="hamburger">&#9776;</button>
+    <span class="mobile-guild-name"><%= guild.name %></span>
+    <a href="/dashboard" class="btn btn-outline btn-sm">Back</a>
+  </div>
+
+  <!-- ── Main Content ─────────────────────────────────────────────────────── -->
+  <main class="main-content" id="main-content" data-guild="<%= guild.id %>">
     <div id="flash-message" class="flash" style="display:none"></div>
 
-    <!-- Stats -->
-    <div class="stats-grid" data-guild="<%= guild.id %>">
-      <div class="stat-card"><div class="stat-value" id="stat-xp">—</div><div class="stat-label">Members with XP</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-infractions">—</div><div class="stat-label">Total Infractions</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-tickets">—</div><div class="stat-label">Total Tickets</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-open-tickets">—</div><div class="stat-label">Open Tickets</div></div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="leveling">Leveling</button>
-      <button class="tab-btn" data-tab="welcome">Welcome</button>
-      <button class="tab-btn" data-tab="automod">AutoMod</button>
-      <button class="tab-btn" data-tab="commands">Custom Commands</button>
-    </div>
-
-    <!-- Leveling -->
-    <div class="tab-panel active" id="tab-leveling">
-      <form id="form-leveling" data-guild="<%= guild.id %>">
-        <div class="form-group">
-          <label><input type="checkbox" id="levels-enabled" name="enabled"/> Enable Leveling</label>
-        </div>
-        <div class="form-group">
-          <label for="announce-channel">Announce Channel ID</label>
-          <input type="text" id="announce-channel" name="announce_channel" placeholder="Leave blank for same channel"/>
-        </div>
-        <div class="form-group">
-          <label for="announce-message">Level Up Message</label>
-          <input type="text" id="announce-message" name="announce_message" placeholder="{user} just reached level {level}!"/>
-          <small class="muted">Variables: {user} {level} {xp}</small>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="xp-min">Min XP / message</label>
-            <input type="number" id="xp-min" name="xp_min" min="1" max="100" value="15"/>
-          </div>
-          <div class="form-group">
-            <label for="xp-max">Max XP / message</label>
-            <input type="number" id="xp-max" name="xp_max" min="1" max="100" value="25"/>
-          </div>
-          <div class="form-group">
-            <label for="xp-cooldown">Cooldown (seconds)</label>
-            <input type="number" id="xp-cooldown" name="xp_cooldown" min="1" max="600" value="60"/>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Save Leveling</button>
-      </form>
-    </div>
-
-    <!-- Welcome -->
-    <div class="tab-panel" id="tab-welcome">
-      <form id="form-welcome" data-guild="<%= guild.id %>">
-        <div class="form-group">
-          <label><input type="checkbox" id="welcome-enabled" name="enabled"/> Enable Welcome Messages</label>
-        </div>
-        <div class="form-group">
-          <label for="welcome-channel">Welcome Channel ID</label>
-          <input type="text" id="welcome-channel" name="channel_id" placeholder="Channel ID"/>
-        </div>
-        <div class="form-group">
-          <label for="welcome-message">Welcome Message</label>
-          <textarea id="welcome-message" name="message" rows="3" placeholder="Welcome {user} to {server}!"></textarea>
-          <small class="muted">Variables: {user} {username} {server} {memberCount}</small>
-        </div>
-        <button type="submit" class="btn btn-primary">Save Welcome</button>
-      </form>
-    </div>
-
-    <!-- AutoMod -->
-    <div class="tab-panel" id="tab-automod">
-      <div id="automod-display">
-        <p class="muted">Loading automod settings…</p>
+    <!-- ════════════ DASHBOARD HOME ════════════ -->
+    <section class="page active" id="page-dashboard">
+      <h1>Dashboard</h1>
+      <p class="muted">Overview of your server at a glance.</p>
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card"><div class="stat-value" id="stat-members">—</div><div class="stat-label">Members</div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-xp">—</div><div class="stat-label">Members with XP</div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-infractions">—</div><div class="stat-label">Infractions</div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-tickets">—</div><div class="stat-label">Open Tickets</div></div>
       </div>
-      <p>Use the <code>/automod</code> slash command in your server to configure filters and actions.</p>
-    </div>
 
-    <!-- Custom Commands -->
-    <div class="tab-panel" id="tab-commands">
-      <form id="form-command" data-guild="<%= guild.id %>">
-        <h3>Add Custom Command</h3>
-        <div class="form-row">
+      <h2>Quick Enable</h2>
+      <p class="muted">Toggle plugins on or off. Click a plugin name in the sidebar to configure it.</p>
+      <div class="plugin-grid" id="plugin-grid">
+        <!-- filled by JS -->
+      </div>
+    </section>
+
+    <!-- ════════════ SETTINGS ════════════ -->
+    <section class="page" id="page-settings">
+      <h1>Server Settings</h1>
+      <p class="muted">General bot settings for this server.</p>
+      <div class="card">
+        <p class="muted">Server settings are managed via the <code>/settings</code> slash command in Discord. Dashboard configuration coming soon.</p>
+      </div>
+    </section>
+
+    <!-- ════════════ WELCOME & GOODBYE ════════════ -->
+    <section class="page" id="page-welcome">
+      <h1>Welcome & Goodbye</h1>
+      <p class="muted">Customize join and leave messages for your server.</p>
+
+      <div class="card">
+        <h3>Welcome Message</h3>
+        <form id="form-welcome" class="plugin-form">
           <div class="form-group">
-            <label>Command Name</label>
-            <input type="text" name="name" placeholder="e.g. rules" required/>
+            <label><input type="checkbox" id="welcome-enabled"/> Enable Welcome Messages</label>
+          </div>
+          <div class="form-group">
+            <label for="welcome-channel">Channel</label>
+            <select id="welcome-channel" class="form-select channel-select"></select>
+          </div>
+          <div class="form-group">
+            <label for="welcome-message">Message</label>
+            <textarea id="welcome-message" rows="3" placeholder="Welcome {user} to {server}!"></textarea>
+            <small class="muted">Variables: {user} {username} {server} {memberCount}</small>
+          </div>
+          <div class="form-group">
+            <label><input type="checkbox" id="welcome-card"/> Enable Welcome Card (image)</label>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Goodbye Message</h3>
+        <form id="form-goodbye" class="plugin-form">
+          <div class="form-group">
+            <label><input type="checkbox" id="goodbye-enabled"/> Enable Goodbye Messages</label>
+          </div>
+          <div class="form-group">
+            <label for="goodbye-channel">Channel</label>
+            <select id="goodbye-channel" class="form-select channel-select"></select>
+          </div>
+          <div class="form-group">
+            <label for="goodbye-message">Message</label>
+            <textarea id="goodbye-message" rows="3" placeholder="Goodbye {username}, we hope to see you again!"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <button class="btn btn-primary" id="save-welcome">Save Changes</button>
+    </section>
+
+    <!-- ════════════ REACTION ROLES ════════════ -->
+    <section class="page" id="page-reaction-roles">
+      <h1>Reaction Roles</h1>
+      <p class="muted">Let members self-assign roles by reacting to messages.</p>
+
+      <div class="card">
+        <h3>Add Reaction Role</h3>
+        <form id="form-reaction-role" class="plugin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Channel</label>
+              <select id="rr-channel" class="form-select channel-select"></select>
+            </div>
+            <div class="form-group">
+              <label>Message ID</label>
+              <input type="text" id="rr-message-id" placeholder="Right-click message → Copy ID"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Emoji</label>
+              <input type="text" id="rr-emoji" placeholder="e.g. ⭐ or custom ID"/>
+            </div>
+            <div class="form-group">
+              <label>Role</label>
+              <select id="rr-role" class="form-select role-select"></select>
+            </div>
+            <div class="form-group">
+              <label>Mode</label>
+              <select id="rr-mode" class="form-select">
+                <option value="normal">Normal</option>
+                <option value="unique">Unique (one role per message)</option>
+                <option value="verify">Verify (add only, no remove)</option>
+                <option value="reverse">Reverse (remove on react)</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Reaction Role</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Current Reaction Roles</h3>
+        <div id="reaction-roles-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ MODERATOR / AUTOMOD ════════════ -->
+    <section class="page" id="page-moderator">
+      <h1>Moderator</h1>
+      <p class="muted">Automatic moderation to keep your server clean.</p>
+
+      <div class="card">
+        <form id="form-automod" class="plugin-form">
+          <div class="form-group">
+            <label><input type="checkbox" id="automod-enabled"/> Enable Auto-Moderation</label>
+          </div>
+
+          <h3>Filters</h3>
+          <div class="filter-grid">
+            <div class="filter-item">
+              <label><input type="checkbox" id="automod-anti-spam"/> Anti-Spam</label>
+              <small class="muted">Block repeated/rapid messages</small>
+            </div>
+            <div class="filter-item">
+              <label><input type="checkbox" id="automod-anti-caps"/> Anti-Caps</label>
+              <small class="muted">Block excessive capital letters</small>
+              <input type="number" id="automod-caps-threshold" min="30" max="100" value="70" placeholder="Threshold %"/>
+            </div>
+            <div class="filter-item">
+              <label><input type="checkbox" id="automod-anti-links"/> Anti-Links</label>
+              <small class="muted">Block links (except allowed)</small>
+            </div>
+            <div class="filter-item">
+              <label><input type="checkbox" id="automod-anti-invites"/> Anti-Invites</label>
+              <small class="muted">Block Discord invite links</small>
+            </div>
+            <div class="filter-item">
+              <label><input type="checkbox" id="automod-anti-words"/> Anti-Bad Words</label>
+              <small class="muted">Filter out specific words</small>
+            </div>
+            <div class="filter-item">
+              <label><input type="checkbox" id="automod-anti-emoji"/> Anti-Emoji Spam</label>
+              <small class="muted">Block excessive emojis</small>
+              <input type="number" id="automod-emoji-threshold" min="3" max="50" value="10" placeholder="Max emojis"/>
+            </div>
+            <div class="filter-item">
+              <label><input type="checkbox" id="automod-anti-mention"/> Anti-Mention Spam</label>
+              <small class="muted">Block mass mentions</small>
+              <input type="number" id="automod-mention-threshold" min="2" max="50" value="5" placeholder="Max mentions"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Bad Words (comma-separated)</label>
+            <textarea id="automod-bad-words" rows="2" placeholder="word1, word2, word3"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Action</label>
+              <select id="automod-action" class="form-select">
+                <option value="warn">Warn</option>
+                <option value="mute">Mute</option>
+                <option value="kick">Kick</option>
+                <option value="ban">Ban</option>
+                <option value="delete">Delete Only</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Mute Duration (seconds)</label>
+              <input type="number" id="automod-mute-duration" min="10" max="86400" value="300"/>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save AutoMod</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ════════════ LEVELS ════════════ -->
+    <section class="page" id="page-levels">
+      <h1>Levels</h1>
+      <p class="muted">XP-based leveling system with role rewards.</p>
+
+      <div class="card">
+        <form id="form-levels" class="plugin-form">
+          <div class="form-group">
+            <label><input type="checkbox" id="levels-enabled"/> Enable Leveling</label>
+          </div>
+          <div class="form-group">
+            <label>Announce Channel</label>
+            <select id="levels-announce-channel" class="form-select channel-select">
+              <option value="">Same channel as message</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Level Up Message</label>
+            <input type="text" id="levels-announce-message" placeholder="GG {user}, you just advanced to level {level}!"/>
+            <small class="muted">Variables: {user} {level} {xp}</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Min XP / message</label>
+              <input type="number" id="levels-xp-min" min="1" max="100" value="15"/>
+            </div>
+            <div class="form-group">
+              <label>Max XP / message</label>
+              <input type="number" id="levels-xp-max" min="1" max="100" value="25"/>
+            </div>
+            <div class="form-group">
+              <label>Cooldown (seconds)</label>
+              <input type="number" id="levels-xp-cooldown" min="1" max="600" value="60"/>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Leveling</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Level Role Rewards</h3>
+        <form id="form-level-role" class="plugin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Level</label>
+              <input type="number" id="lr-level" min="1" max="200" placeholder="e.g. 5"/>
+            </div>
+            <div class="form-group">
+              <label>Role</label>
+              <select id="lr-role" class="form-select role-select"></select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Role Reward</button>
+        </form>
+        <div id="level-roles-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ STARBOARD ════════════ -->
+    <section class="page" id="page-starboard">
+      <h1>Starboard</h1>
+      <p class="muted">Pin the best messages to a starboard channel when they receive enough reactions.</p>
+
+      <div class="card">
+        <form id="form-starboard" class="plugin-form">
+          <div class="form-group">
+            <label><input type="checkbox" id="starboard-enabled"/> Enable Starboard</label>
+          </div>
+          <div class="form-group">
+            <label>Starboard Channel</label>
+            <select id="starboard-channel" class="form-select channel-select"></select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Star Threshold</label>
+              <input type="number" id="starboard-threshold" min="1" max="50" value="3"/>
+            </div>
+            <div class="form-group">
+              <label>Emoji</label>
+              <input type="text" id="starboard-emoji" value="⭐"/>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Starboard</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ════════════ AUTOMATIONS ════════════ -->
+    <section class="page" id="page-automations">
+      <h1>Automations</h1>
+      <p class="muted">Set up automated responses and actions triggered by events.</p>
+
+      <div class="card">
+        <h3>Add Automation</h3>
+        <form id="form-automation" class="plugin-form">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="auto-name" placeholder="e.g. Auto Welcome DM"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Trigger Type</label>
+              <select id="auto-trigger-type" class="form-select">
+                <option value="message_contains">Message Contains</option>
+                <option value="member_join">Member Join</option>
+                <option value="member_leave">Member Leave</option>
+                <option value="message_reaction">Reaction Added</option>
+                <option value="scheduled">Scheduled (cron)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Trigger Value</label>
+              <input type="text" id="auto-trigger-value" placeholder="e.g. keyword or cron expression"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Action (JSON)</label>
+            <textarea id="auto-actions" rows="3" placeholder='[{"type": "send_message", "channel_id": "...", "content": "Hello!"}]'></textarea>
+            <small class="muted">Actions: send_message, add_role, remove_role, create_thread</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Automation</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Current Automations</h3>
+        <div id="automations-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ CUSTOM COMMANDS ════════════ -->
+    <section class="page" id="page-custom-commands">
+      <h1>Custom Commands</h1>
+      <p class="muted">Create custom slash commands with text responses.</p>
+
+      <div class="card">
+        <h3>Add Command</h3>
+        <form id="form-command" class="plugin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Command Name</label>
+              <input type="text" id="cmd-name" placeholder="e.g. rules" required/>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <input type="text" id="cmd-description" placeholder="Shows the rules"/>
+            </div>
           </div>
           <div class="form-group">
             <label>Response</label>
-            <input type="text" name="response" placeholder="Response text" required/>
+            <textarea id="cmd-response" rows="3" placeholder="Response text..." required></textarea>
           </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Command</button>
-      </form>
-
-      <div id="commands-list" data-guild="<%= guild.id %>">
-        <p class="muted">Loading…</p>
+          <button type="submit" class="btn btn-primary">Add Command</button>
+        </form>
       </div>
-    </div>
+
+      <div class="card">
+        <h3>Current Commands</h3>
+        <div id="commands-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ INVITE TRACKER ════════════ -->
+    <section class="page" id="page-invite-tracker">
+      <h1>Invite Tracker</h1>
+      <p class="muted">Track who invited whom to your server.</p>
+
+      <div class="card">
+        <h3>Top Inviters</h3>
+        <div id="invite-tracker-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ TICKETING ════════════ -->
+    <section class="page" id="page-ticketing">
+      <h1>Ticketing</h1>
+      <p class="muted">Support ticket system with panels, logs and transcripts.</p>
+
+      <div class="card">
+        <form id="form-ticketing" class="plugin-form">
+          <div class="form-group">
+            <label><input type="checkbox" id="ticket-enabled"/> Enable Ticketing</label>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <input type="text" id="ticket-category" placeholder="Category ID for ticket channels"/>
+          </div>
+          <div class="form-group">
+            <label>Support Role</label>
+            <select id="ticket-support-role" class="form-select role-select"></select>
+          </div>
+          <div class="form-group">
+            <label>Log Channel</label>
+            <select id="ticket-log-channel" class="form-select channel-select"></select>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Ticketing</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Recent Tickets</h3>
+        <div id="tickets-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ POLLS ════════════ -->
+    <section class="page" id="page-polls">
+      <h1>Polls</h1>
+      <p class="muted">Create multi-option polls. Use the <code>/poll</code> slash command in Discord to create polls directly.</p>
+      <div class="card">
+        <p class="muted">Polls are created and managed via the <code>/poll</code> slash command. Dashboard poll creation coming soon.</p>
+      </div>
+    </section>
+
+    <!-- ════════════ EMBED MESSAGES ════════════ -->
+    <section class="page" id="page-embed-messages">
+      <h1>Embed Messages</h1>
+      <p class="muted">Build and send rich embed messages to your channels.</p>
+
+      <div class="card">
+        <h3>Create Embed</h3>
+        <form id="form-embed" class="plugin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" id="embed-name" placeholder="Embed name"/>
+            </div>
+            <div class="form-group">
+              <label>Channel</label>
+              <select id="embed-channel" class="form-select channel-select"></select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="embed-title" placeholder="Embed title"/>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="embed-description" rows="4" placeholder="Embed description (supports Markdown)"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Color</label>
+              <input type="color" id="embed-color" value="#5865f2"/>
+            </div>
+            <div class="form-group">
+              <label>Footer</label>
+              <input type="text" id="embed-footer" placeholder="Footer text"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" id="embed-image" placeholder="https://..."/>
+          </div>
+          <div class="form-group">
+            <label>Thumbnail URL</label>
+            <input type="text" id="embed-thumbnail" placeholder="https://..."/>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Embed</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Sent Embeds</h3>
+        <div id="embeds-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ REMINDERS ════════════ -->
+    <section class="page" id="page-reminders">
+      <h1>Reminders</h1>
+      <p class="muted">Set reminders via the <code>/remind</code> slash command in Discord.</p>
+      <div class="card">
+        <p class="muted">Reminders are managed via the <code>/remind</code> slash command. Dashboard management coming soon.</p>
+      </div>
+    </section>
+
+    <!-- ════════════ TEMPORARY CHANNELS ════════════ -->
+    <section class="page" id="page-temp-channels">
+      <h1>Temporary Channels</h1>
+      <p class="muted">Auto-create temporary voice channels when users join a trigger channel.</p>
+
+      <div class="card">
+        <form id="form-temp-channels" class="plugin-form">
+          <div class="form-group">
+            <label><input type="checkbox" id="tc-enabled"/> Enable Temporary Channels</label>
+          </div>
+          <div class="form-group">
+            <label>Trigger Voice Channel ID</label>
+            <input type="text" id="tc-trigger-channel" placeholder="Voice channel ID users join to create a temp channel"/>
+          </div>
+          <div class="form-group">
+            <label>Category ID</label>
+            <input type="text" id="tc-category" placeholder="Category where temp channels are created"/>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Temp Channels</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ════════════ YOUTUBE ════════════ -->
+    <section class="page" id="page-youtube">
+      <h1>YouTube Alerts</h1>
+      <p class="muted">Get notified when a YouTube channel uploads a new video.</p>
+
+      <div class="card">
+        <h3>Add YouTube Channel</h3>
+        <form id="form-youtube" class="plugin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Discord Channel</label>
+              <select id="yt-channel" class="form-select channel-select"></select>
+            </div>
+            <div class="form-group">
+              <label>YouTube Channel ID</label>
+              <input type="text" id="yt-channel-id" placeholder="UCxxxxxxxxxxxx"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>YouTube Channel Name (optional)</label>
+            <input type="text" id="yt-channel-name" placeholder="Channel display name"/>
+          </div>
+          <div class="form-group">
+            <label>Alert Message</label>
+            <textarea id="yt-message" rows="2" placeholder="{channel} uploaded a new video!\n{url}"></textarea>
+            <small class="muted">Variables: {channel} {url} {title}</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Add YouTube Alert</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Active YouTube Alerts</h3>
+        <div id="youtube-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ RSS FEEDS ════════════ -->
+    <section class="page" id="page-rss-feeds">
+      <h1>RSS Feeds</h1>
+      <p class="muted">Follow any RSS feed and post new items to a channel.</p>
+
+      <div class="card">
+        <h3>Add RSS Feed</h3>
+        <form id="form-rss" class="plugin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Discord Channel</label>
+              <select id="rss-channel" class="form-select channel-select"></select>
+            </div>
+            <div class="form-group">
+              <label>Feed URL</label>
+              <input type="text" id="rss-url" placeholder="https://example.com/feed.rss"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Feed Name (optional)</label>
+            <input type="text" id="rss-name" placeholder="My Feed"/>
+          </div>
+          <div class="form-group">
+            <label>Alert Message</label>
+            <textarea id="rss-message" rows="2" placeholder="New post from {feed}: **{title}**\n{url}"></textarea>
+            <small class="muted">Variables: {feed} {title} {url} {author}</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Add RSS Feed</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Active RSS Feeds</h3>
+        <div id="rss-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ REDDIT ════════════ -->
+    <section class="page" id="page-reddit">
+      <h1>Reddit Alerts</h1>
+      <p class="muted">Get notified of new posts in subreddits.</p>
+
+      <div class="card">
+        <h3>Add Subreddit</h3>
+        <form id="form-reddit" class="plugin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Discord Channel</label>
+              <select id="reddit-channel" class="form-select channel-select"></select>
+            </div>
+            <div class="form-group">
+              <label>Subreddit</label>
+              <input type="text" id="reddit-subreddit" placeholder="e.g. programming (no r/)"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Alert Message</label>
+            <textarea id="reddit-message" rows="2" placeholder="New post in r/{subreddit}: **{title}**\n{url}"></textarea>
+            <small class="muted">Variables: {subreddit} {title} {url} {author}</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Reddit Alert</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Active Reddit Alerts</h3>
+        <div id="reddit-list"><p class="muted">Loading...</p></div>
+      </div>
+    </section>
+
+    <!-- ════════════ GIVEAWAYS ════════════ -->
+    <section class="page" id="page-giveaways">
+      <h1>Giveaways</h1>
+      <p class="muted">Host giveaways. Use <code>/giveaway start</code> in Discord to create one.</p>
+      <div class="card">
+        <p class="muted">Giveaways are created and managed via the <code>/giveaway</code> slash command. Dashboard management coming soon.</p>
+      </div>
+    </section>
+
+    <!-- ════════════ BIRTHDAYS ════════════ -->
+    <section class="page" id="page-birthdays">
+      <h1>Birthdays</h1>
+      <p class="muted">Auto-announce member birthdays and optionally assign a birthday role.</p>
+
+      <div class="card">
+        <form id="form-birthdays" class="plugin-form">
+          <div class="form-group">
+            <label><input type="checkbox" id="bday-enabled"/> Enable Birthday Announcements</label>
+          </div>
+          <div class="form-group">
+            <label>Announcement Channel</label>
+            <select id="bday-channel" class="form-select channel-select"></select>
+          </div>
+          <div class="form-group">
+            <label>Birthday Role (optional)</label>
+            <select id="bday-role" class="form-select role-select">
+              <option value="">None</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Birthday Message</label>
+            <input type="text" id="bday-message" placeholder="🎂 Happy Birthday {user}! 🎉"/>
+            <small class="muted">Variables: {user} {username}</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Birthdays</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ════════════ ECONOMY ════════════ -->
+    <section class="page" id="page-economy">
+      <h1>Economy</h1>
+      <p class="muted">Virtual currency system with daily rewards, gambling, and a shop.</p>
+      <div class="card">
+        <p class="muted">Economy settings and shop items are managed via slash commands: <code>/daily</code>, <code>/balance</code>, <code>/shop</code>, <code>/coinflip</code>, <code>/slots</code>, <code>/roulette</code>, <code>/rps</code>. Dashboard shop management coming soon.</p>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="footer">
-    <p>© 2026 jasonzli-DEV · <a href="https://github.com/jasonzli-DEV/FREE6">GitHub</a></p>
-  </footer>
   <script src="/js/dashboard.js"></script>
 </body>
 </html>
