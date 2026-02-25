@@ -2,14 +2,13 @@
 
 <div align="center">
 
-[![Discord](https://img.shields.io/discord/000000000000000000?color=5865F2&logo=discord&logoColor=white&label=Support%20Server)](https://discord.gg/free6)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
 [![GitHub Stars](https://img.shields.io/github/stars/jasonzli-DEV/FREE6?style=social)](https://github.com/jasonzli-DEV/FREE6)
 
-**FREE6** is a fully-featured, open-source Discord bot that is a **110% replica of MEE6** — with every feature MEE6 offers, _plus_ exclusive extras that make it even better. And it's completely **free**.
+**FREE6** is a fully-featured, open-source Discord bot — a **100% free alternative to MEE6**. Every feature MEE6 locks behind a paywall, FREE6 gives you for free.
 
-[Features](#features) • [Setup](#setup) • [Dashboard](#web-dashboard) • [Contributing](#contributing) • [License](#license)
+[Features](#features) • [Setup](#setup) • [Dashboard](#web-dashboard) • [Commands](#slash-commands) • [Contributing](#contributing) • [License](#license)
 
 </div>
 
@@ -18,8 +17,8 @@
 ## ✨ Features
 
 ### 🛡️ Moderation
-- **Auto-Moderation** — Filter bad words, links, spam, excessive caps/emojis, and invite links
-- **Moderation Commands** — `/ban`, `/kick`, `/mute`, `/unmute`, `/warn`, `/infractions`, `/clear`, `/slowmode`, `/lock`, `/unlock`
+- **Auto-Moderation** — Filter bad words, links, spam, excessive caps/emojis, and invite links (configured via dashboard)
+- **Moderation Commands** — `/ban`, `/kick`, `/mute`, `/unmute`, `/warn`, `/infractions`, `/clear`, `/slowmode`, `/unban`
 - **Audit Logging** — Full server activity log: message edits/deletes, member joins/leaves, role changes, bans, voice events
 - **Temp Bans/Mutes** — Time-based punishment with automatic expiration
 
@@ -28,27 +27,27 @@
 - Personalized welcome cards with custom backgrounds
 - Auto-assign roles on member join (autorole)
 
-### 📈 Leveling & XP
+### 📈 Levels
 - Message-based XP with configurable rate and cooldown
 - Level-up notifications (channel or DM)
 - Role rewards at configurable levels
-- Leaderboard per server
+- `/rank` and `/leaderboard` commands
 - Customizable rank card with background & color
 
 ### 🎭 Reaction Roles
-- Assign roles via emoji reactions on any message
+- Assign roles via emoji reactions or buttons (configured via dashboard)
 - Modes: Normal, Unique (only one at a time), Verify, Reversed
 - Unlimited reaction role sets
 
 ### 🛠️ Custom Commands
-- Create server-specific slash commands
+- Create server-specific commands via the dashboard
 - Actions: send message, send DM, add/remove/toggle role, add response
 - Variable support: `{user}`, `{server}`, `{membercount}`, etc.
 
 ### 🎰 Economy
-- Daily coin rewards with the `/daily` command
-- Games: roulette, rock-paper-scissors, slots, coinflip
-- Shop with purchasable roles and items
+- Daily coin rewards with `/daily`
+- Gambling games with `/gamble` (coinflip, slots, roulette, rock-paper-scissors)
+- Check balance with `/balance`
 - Server leaderboard for coins
 
 ### 🎁 Giveaways
@@ -57,7 +56,7 @@
 - Reroll and end giveaways manually
 
 ### 📊 Polls
-- Create polls with up to 10 options
+- Create polls with up to 10 options via `/poll`
 - Timed polls with automatic results
 - Single-choice or multi-choice modes
 
@@ -71,35 +70,27 @@
 - **Reddit** — New post notifications for any subreddit (no key required)
 
 ### 🎫 Ticketing
-- `/ticket` command to open support tickets
+- Dashboard-configured support ticket system
 - Private thread or channel per ticket
 - Staff assignment and ticket transcripts
 
-### 🤖 Automation
+### 🤖 Automations
 - Trigger → Condition → Action automation system
 - Supports message triggers, join/leave events, time-based triggers
 
 ### 🔢 Invite Tracker
-- Track which member invited whom
+- Track which member invited whom (configured via dashboard)
 - Invite leaderboard per server
-- Rejoin/bonus invite tracking
+
+### ⭐ Starboards
+- Pin the best messages to a starboard channel automatically
+- Configurable star threshold
 
 ### 📌 Utilities
 - Rich embed builder with live preview in dashboard
-- Timed/scheduled messages (recurring or one-time)
-- Server statistics counters in voice channel names
+- Timed reminders (configured via dashboard)
 - Temporary voice channels (auto-create on join)
-- `/poll`, `/remind`, `/serverinfo`, `/userinfo`, `/avatar`, `/help`
-
-### 🌟 Exclusive FREE6 Extras (The +10%)
-- **Starboard** — Highlight popular messages automatically
-- **Anti-Raid Protection** — Detect and lockdown server during raids
-- **Thread Management** — Auto-archive, auto-lock, thread only channels
-- **Anonymous Suggestions** — `/suggest` with anonymous voting
-- **Advanced Dashboard** — Graphs, logs view, per-plugin analytics
-- **Per-Channel Slowmode Manager** — Auto-adjust slowmode based on activity
-- **Server Backup** — Backup and restore server settings
-- **Custom Bot Personalizer** — Use your OWN bot token to power FREE6 under a custom identity
+- `/help` and `/dashboard` commands
 
 ---
 
@@ -143,6 +134,20 @@ npm run dev
 
 ---
 
+## ⌨️ Slash Commands
+
+FREE6 has 19 slash commands — matching what MEE6 provides. Most features (automod, reaction roles, ticketing, etc.) are configured via the dashboard, just like MEE6.
+
+| Category | Commands |
+|---|---|
+| **Moderation** | `/ban`, `/kick`, `/mute`, `/unmute`, `/warn`, `/infractions`, `/clear`, `/slowmode`, `/unban` |
+| **Leveling** | `/rank`, `/leaderboard` |
+| **Economy** | `/balance`, `/daily`, `/gamble` |
+| **Fun** | `/birthday`, `/giveaway`, `/poll` |
+| **Utility** | `/help`, `/dashboard` |
+
+---
+
 ## 🖥️ Web Dashboard
 
 FREE6 comes with a full web dashboard, just like MEE6.
@@ -151,9 +156,8 @@ Access it at `http://localhost:3000` (or your configured `DASHBOARD_PORT`).
 
 Features:
 - Login with Discord OAuth2
-- Configure all plugins per server
+- Configure all 20 plugins per server
 - Live leaderboard view
-- Audit log viewer
 - Embed builder
 - Custom command editor
 
